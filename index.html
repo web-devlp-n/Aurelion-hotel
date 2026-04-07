@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Grand Aurelion — Luxury Hotel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:          #F7F5F2;
+  --bg2:         #EDEBE7;
+  --bg3:         #E2E0DB;
+  --surface:     #FFFFFF;
+  --border:      rgba(0,0,0,0.1);
+  --text:        #111111;
+  --text2:       #3A3A3A;
+  --text3:       #6B6B6B;
+  --text4:       #999999;
+  --nav-bg:      rgba(247,245,242,0.95);
+  --nav-border:  rgba(0,0,0,0.08);
+  --accent:      #111111;
+  --accent-inv:  #FFFFFF;
+  --card-bg:     #FFFFFF;
+  --card-hover:  #F5F3F0;
+  --input-bg:    rgba(0,0,0,0.03);
+  --input-border:rgba(0,0,0,0.15);
+  --drawer-bg:   #FFFFFF;
+  --shadow:      0 2px 20px rgba(0,0,0,0.08);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,0.12);
+  --toggle-bg:   #DDDDDD;
+  --toggle-knob: #111111;
+}
+[data-theme="dark"] {
+  --bg:          #0E0E0E;
+  --bg2:         #161616;
+  --bg3:         #1E1E1E;
+  --surface:     #1A1A1A;
+  --border:      rgba(255,255,255,0.08);
+  --text:        #F0F0F0;
+  --text2:       #C8C8C8;
+  --text3:       #888888;
+  --text4:       #555555;
+  --nav-bg:      rgba(14,14,14,0.96);
+  --nav-border:  rgba(255,255,255,0.06);
+  --accent:      #FFFFFF;
+  --accent-inv:  #111111;
+  --card-bg:     #1E1E1E;
+  --card-hover:  #252525;
+  --input-bg:    rgba(255,255,255,0.04);
+  --input-border:rgba(255,255,255,0.12);
+  --drawer-bg:   #141414;
+  --shadow:      0 2px 20px rgba(0,0,0,0.4);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,0.6);
+  --toggle-bg:   #444444;
+  --toggle-knob: #FFFFFF;
+}
+
+/* ═══════════════════════════════════════
+   BASE RESET
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Lato',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background 0.35s,color 0.35s;
+  min-height:100vh;
+}
+
+/* ═══════════════════════════════════════
+   NAV BAR
+═══════════════════════════════════════ */
+#navbar {
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  background:var(--nav-bg);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--nav-border);
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+  transition:background 0.35s,border-color 0.35s;
+  box-shadow:var(--shadow);
+}
+.nav-logo{
+  font-family:'Cinzel',serif;font-size:17px;letter-spacing:3px;
+  color:var(--text);text-decoration:none;line-height:1.15;
+  cursor:pointer;flex-shrink:0;
+}
+.nav-logo small{font-size:8.5px;display:block;letter-spacing:5px;color:var(--text3);font-weight:400;margin-top:1px;}
+
+/* desktop links */
+.nav-links{
+  display:flex;gap:4px;list-style:none;align-items:center;
+}
+.nav-links li a, .nav-links li button {
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  color:var(--text2);text-decoration:none;text-transform:uppercase;
+  background:none;border:none;cursor:pointer;
+  padding:8px 12px;border-radius:2px;
+  transition:color 0.2s,background 0.2s;
+  white-space:nowrap;
+}
+.nav-links li a:hover,.nav-links li button:hover{color:var(--text);background:var(--bg2);}
+.nav-links li a.active{color:var(--text);font-weight:600;}
+
+.nav-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+
+/* theme toggle */
+.theme-toggle{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  background:none;border:none;padding:6px;
+}
+.toggle-track{
+  width:40px;height:22px;background:var(--toggle-bg);
+  border-radius:11px;position:relative;transition:background 0.3s;flex-shrink:0;
+}
+.toggle-knob{
+  position:absolute;top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--toggle-knob);
+  transition:transform 0.3s,background 0.3s;
+}
+[data-theme="dark"] .toggle-knob{transform:translateX(18px);}
+.toggle-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;}
+
+.nav-book-btn{
+  font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:2px;
+  background:var(--accent);color:var(--accent-inv);
+  border:none;cursor:pointer;text-transform:uppercase;
+  padding:9px 20px;transition:opacity 0.2s,transform 0.2s;
+  white-space:nowrap;
+}
+.nav-book-btn:hover{opacity:0.85;transform:translateY(-1px);}
+
+/* HAMBURGER */
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  cursor:pointer;background:none;border:none;
+  width:36px;height:36px;padding:4px;
+}
+.hamburger span{
+  display:block;width:22px;height:1.5px;background:var(--text);
+  transition:all 0.3s;transform-origin:center;
+}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* ═══════════════════════════════════════
+   MOBILE DRAWER
+═══════════════════════════════════════ */
+.drawer-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.5);z-index:800;
+  opacity:0;transition:opacity 0.3s;
+}
+.drawer-overlay.visible{display:block;}
+.drawer-overlay.show{opacity:1;}
+
+.mobile-drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:min(300px,85vw);
+  background:var(--drawer-bg);
+  z-index:850;
+  transform:translateX(100%);
+  transition:transform 0.35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  padding:80px 0 32px;
+  border-left:1px solid var(--border);
+  overflow-y:auto;
+}
+.mobile-drawer.open{transform:translateX(0);}
+
+.drawer-menu{display:flex;flex-direction:column;}
+.drawer-menu button{
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:2.5px;
+  color:var(--text2);text-transform:uppercase;background:none;border:none;
+  cursor:pointer;padding:18px 32px;text-align:left;
+  border-bottom:1px solid var(--border);
+  transition:color 0.2s,background 0.2s,padding-left 0.2s;
+}
+.drawer-menu button:hover{color:var(--text);background:var(--bg2);padding-left:40px;}
+.drawer-menu button.active{color:var(--text);font-weight:700;}
+
+.drawer-footer{
+  margin-top:auto;padding:24px 32px;
+  border-top:1px solid var(--border);
+}
+.drawer-book{
+  display:block;width:100%;
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;
+  background:var(--accent);color:var(--accent-inv);
+  border:none;cursor:pointer;text-transform:uppercase;
+  padding:14px;text-align:center;margin-bottom:20px;
+  transition:opacity 0.2s;
+}
+.drawer-book:hover{opacity:0.85;}
+.drawer-contacts p{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:8px;}
+.drawer-contacts a{display:block;color:var(--text2);text-decoration:none;font-size:14px;font-family:'Cormorant Garamond',serif;margin-bottom:4px;}
+.drawer-contacts a:hover{color:var(--text);}
+
+/* drawer theme toggle */
+.drawer-theme{
+  display:flex;align-items:center;gap:10px;padding:16px 32px;
+  border-bottom:1px solid var(--border);cursor:pointer;background:none;border-top:none;
+  width:100%;text-align:left;
+}
+.drawer-theme span{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
+
+/* ═══════════════════════════════════════
+   PAGES SYSTEM
+═══════════════════════════════════════ */
+.page{
+  display:none;min-height:100vh;padding-top:68px;
+  animation:pageFade 0.45s ease both;
+}
+.page.active{display:block;}
+@keyframes pageFade{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════ */
+.container{max-width:1160px;margin:0 auto;padding:0 24px;}
+.section-inner{padding:80px 24px;}
+
+.section-label{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;
+  color:var(--text3);text-transform:uppercase;text-align:center;margin-bottom:10px;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,58px);font-weight:300;
+  text-align:center;line-height:1.15;color:var(--text);
+}
+.section-title em{font-style:italic;color:var(--text3);}
+.section-desc{
+  font-family:'Cormorant Garamond',serif;font-size:17px;
+  font-style:italic;color:var(--text3);
+  text-align:center;max-width:560px;margin:12px auto 0;line-height:1.85;
+}
+.divider{
+  display:flex;align-items:center;gap:14px;justify-content:center;
+  margin:24px 0;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;max-width:72px;height:1px;background:var(--border);
+}
+.divider span{color:var(--text4);font-size:12px;letter-spacing:3px;}
+
+/* ── btn styles ── */
+.btn{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:2.5px;
+  text-transform:uppercase;cursor:pointer;transition:all 0.25s;
+  display:inline-block;text-decoration:none;padding:14px 36px;border:none;
+}
+.btn-dark{background:var(--accent);color:var(--accent-inv);}
+.btn-dark:hover{opacity:0.82;transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--text);background:var(--bg2);}
+
+/* ── image placeholder that always shows ── */
+.img-block{
+  width:100%;overflow:hidden;position:relative;
+  background:var(--bg3);
+}
+.img-block img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 0.6s;
+}
+.img-block:hover img{transform:scale(1.05);}
+
+/* ── stat row ── */
+.stats{display:flex;gap:0;flex-wrap:wrap;}
+.stat{
+  flex:1;min-width:100px;text-align:center;
+  padding:28px 20px;border-right:1px solid var(--border);
+  background:var(--surface);
+}
+.stat:last-child{border-right:none;}
+.stat-num{font-family:'Cinzel',serif;font-size:36px;color:var(--text);display:block;line-height:1;}
+.stat-lbl{font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-top:4px;display:block;}
+
+/* ═══════════════════════════════════════
+   PAGE: HOME (hero)
+═══════════════════════════════════════ */
+#page-home{padding-top:0;}
+.hero{
+  height:100vh;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-img{
+  position:absolute;inset:0;
+  background-image:url('https://images.unsplash.com/photo-1549294413-26f195200c16?w=1600&q=80');
+  background-size:cover;background-position:center;
+  animation:zoomBg 20s ease-in-out infinite alternate;
+}
+[data-theme="light"] .hero-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(247,245,242,0.35) 0%,rgba(247,245,242,0.05) 40%,rgba(247,245,242,0.65) 100%);
+}
+[data-theme="dark"] .hero-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,14,14,0.5) 0%,rgba(14,14,14,0.1) 40%,rgba(14,14,14,0.75) 100%);
+}
+@keyframes zoomBg{from{transform:scale(1);}to{transform:scale(1.07);}}
+
+.hero-content{
+  position:relative;z-index:2;text-align:center;padding:0 24px;
+  animation:riseUp 1.2s ease both;
+}
+@keyframes riseUp{from{opacity:0;transform:translateY(36px);}to{opacity:1;transform:translateY(0);}}
+.hero-badge{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;
+  color:var(--text);border:1px solid var(--border);
+  display:inline-block;padding:7px 24px;margin-bottom:28px;
+  text-transform:uppercase;background:var(--bg);opacity:0.9;
+}
+.hero-h1{
+  font-family:'Cinzel',serif;font-size:clamp(40px,8vw,94px);
+  font-weight:700;letter-spacing:3px;line-height:1.0;
+  color:var(--text);
+}
+.hero-h1 em{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:300;font-size:1.1em;color:var(--text2);
+}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.5vw,22px);
+  font-style:italic;color:var(--text2);margin-top:14px;letter-spacing:1px;
+}
+.hero-ctas{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.scroll-hint{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;
+  font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3.5px;color:var(--text3);
+  text-transform:uppercase;text-align:center;
+  animation:bobDown 2.5s ease infinite;
+}
+.scroll-hint::after{content:'';display:block;width:1px;height:36px;background:var(--border);margin:8px auto 0;}
+@keyframes bobDown{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
+
+/* home features strip */
+.features-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.feature-box{
+  background:var(--surface);padding:40px 32px;text-align:center;
+  transition:background 0.2s;cursor:pointer;
+}
+.feature-box:hover{background:var(--bg2);}
+.feature-icon{font-size:30px;margin-bottom:14px;display:block;}
+.feature-box h3{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;color:var(--text);margin-bottom:8px;text-transform:uppercase;}
+.feature-box p{font-size:13.5px;color:var(--text3);line-height:1.7;font-family:'Cormorant Garamond',serif;font-size:16px;}
+
+/* quick nav section */
+.quick-nav{padding:72px 24px;text-align:center;}
+.quick-nav h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;color:var(--text);margin-bottom:8px;}
+.quick-nav p{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--text3);margin-bottom:40px;}
+.quick-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;max-width:800px;margin:0 auto;}
+.quick-card{
+  position:relative;height:200px;overflow:hidden;cursor:pointer;
+  display:flex;align-items:flex-end;
+}
+.quick-card-img{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:transform 0.6s;
+}
+.quick-card:hover .quick-card-img{transform:scale(1.07);}
+[data-theme="light"] .quick-card::after{content:'';position:absolute;inset:0;background:rgba(247,245,242,0.25);}
+[data-theme="dark"] .quick-card::after{content:'';position:absolute;inset:0;background:rgba(14,14,14,0.35);}
+.quick-card-label{
+  position:relative;z-index:2;padding:20px;width:100%;
+  background:linear-gradient(to top,var(--surface) 0%,transparent 100%);
+}
+.quick-card-label h4{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;color:var(--text);text-transform:uppercase;}
+.quick-card-label span{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text3);}
+
+/* ═══════════════════════════════════════
+   PAGE: ABOUT
+═══════════════════════════════════════ */
+.about-hero{
+  height:45vh;min-height:280px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  background-image:url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1400&q=80');
+  background-size:cover;background-position:center;
+  overflow:hidden;
+}
+.about-hero::after{
+  content:'';position:absolute;inset:0;
+  background:var(--bg);opacity:0.55;
+}
+.about-hero h1{
+  position:relative;z-index:2;
+  font-family:'Cinzel',serif;font-size:clamp(28px,5vw,56px);
+  letter-spacing:4px;color:var(--text);text-align:center;
+}
+.about-hero small{
+  position:relative;z-index:2;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:18px;color:var(--text2);display:block;margin-top:8px;text-align:center;
+}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:56px;align-items:center;padding:72px 0;
+}
+.about-img-wrap{position:relative;}
+.about-img-wrap::before{
+  content:'';position:absolute;
+  top:-12px;left:-12px;right:12px;bottom:12px;
+  border:1px solid var(--border);z-index:0;pointer-events:none;
+}
+.about-img-wrap .img-block{position:relative;z-index:1;aspect-ratio:4/5;}
+.about-text h3{font-family:'Cinzel',serif;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:18px;}
+.about-text p{font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.95;color:var(--text2);margin-bottom:16px;}
+
+/* ═══════════════════════════════════════
+   PAGE: ROOMS
+═══════════════════════════════════════ */
+.page-hero{
+  height:42vh;min-height:260px;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background-size:cover;background-position:center;overflow:hidden;
+}
+.page-hero::after{content:'';position:absolute;inset:0;background:var(--bg);opacity:0.52;}
+.page-hero h1{
+  position:relative;z-index:2;
+  font-family:'Cinzel',serif;font-size:clamp(26px,5vw,52px);
+  letter-spacing:4px;color:var(--text);text-align:center;
+}
+.page-hero p{
+  position:relative;z-index:2;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:17px;color:var(--text2);margin-top:8px;text-align:center;
+}
+
+.rooms-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:3px;margin:48px 0;
+}
+.room-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.room-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.room-card-img{height:220px;background-size:cover;background-position:center;transition:transform 0.6s;}
+.room-card:hover .room-card-img{transform:scale(1.06);}
+.room-card-body{padding:24px;}
+.room-tag{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:2.5px;color:var(--text3);text-transform:uppercase;margin-bottom:6px;}
+.room-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--text);margin-bottom:6px;}
+.room-desc{font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:14px;}
+.room-price{font-family:'Cinzel',serif;font-size:13px;color:var(--text);}
+.room-price span{font-size:10px;color:var(--text4);}
+.room-features{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.room-feat{font-size:11px;color:var(--text3);background:var(--bg2);padding:3px 8px;letter-spacing:0.5px;}
+
+/* ═══════════════════════════════════════
+   PAGE: DINING
+═══════════════════════════════════════ */
+.dining-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin:48px 0;}
+.dining-card{
+  position:relative;overflow:hidden;
+  background:var(--card-bg);border:1px solid var(--border);
+}
+.dining-card-img{height:280px;background-size:cover;background-position:center;transition:transform 0.6s;}
+.dining-card:hover .dining-card-img{transform:scale(1.05);}
+.dining-card-body{padding:28px;}
+.dining-card h3{font-family:'Cinzel',serif;font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:8px;text-transform:uppercase;}
+.dining-card p{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text2);line-height:1.75;margin-bottom:10px;}
+.dining-tag{font-size:11px;color:var(--text3);font-family:'Cinzel',serif;letter-spacing:1.5px;}
+
+.menu-section{margin:56px 0;}
+.menu-section h3{font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:var(--text);text-transform:uppercase;text-align:center;margin-bottom:32px;}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.menu-item{
+  background:var(--surface);padding:28px;
+  border:1px solid var(--border);
+  transition:background 0.2s,border-color 0.2s;
+}
+.menu-item:hover{background:var(--bg2);border-color:var(--text4);}
+.menu-item h4{font-family:'Cinzel',serif;font-size:12px;letter-spacing:1.5px;color:var(--text);margin-bottom:10px;}
+.menu-item p{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text2);line-height:1.75;}
+.menu-item .price{font-family:'Cinzel',serif;font-size:10px;color:var(--text3);margin-top:10px;display:block;letter-spacing:1px;}
+
+/* ═══════════════════════════════════════
+   PAGE: AMENITIES
+═══════════════════════════════════════ */
+.amenities-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;background:var(--border);margin:48px 0;
+}
+.amenity-card{
+  background:var(--surface);padding:36px 20px;text-align:center;
+  transition:background 0.2s;cursor:default;
+}
+.amenity-card:hover{background:var(--bg2);}
+.amenity-icon{font-size:34px;margin-bottom:14px;display:block;}
+.amenity-card h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--text);margin-bottom:8px;text-transform:uppercase;}
+.amenity-card p{font-size:13px;color:var(--text3);line-height:1.7;}
+
+/* ═══════════════════════════════════════
+   PAGE: GALLERY
+═══════════════════════════════════════ */
+.gallery-masonry{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:260px 200px 260px;
+  gap:4px;margin:48px 0;
+}
+.gal-item{
+  overflow:hidden;position:relative;cursor:pointer;
+  background:var(--bg3);
+}
+.gal-item:nth-child(1){grid-column:span 2;}
+.gal-item:nth-child(4){grid-column:span 2;}
+.gal-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform 0.6s;
+}
+.gal-item:hover .gal-bg{transform:scale(1.08);}
+[data-theme="light"] .gal-item::after{content:'';position:absolute;inset:0;background:rgba(247,245,242,0.08);}
+[data-theme="dark"] .gal-item::after{content:'';position:absolute;inset:0;background:rgba(14,14,14,0.12);}
+.gal-item:hover::after{opacity:0;}
+
+/* ═══════════════════════════════════════
+   PAGE: BOOKING
+═══════════════════════════════════════ */
+.booking-wrap{
+  display:grid;grid-template-columns:1fr 1.3fr;
+  gap:56px;align-items:start;padding:56px 0;
+}
+.booking-info h3{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,38px);
+  font-weight:300;color:var(--text);line-height:1.4;margin-bottom:16px;
+}
+.booking-info p{
+  font-family:'Cormorant Garamond',serif;font-size:16px;
+  color:var(--text3);line-height:1.9;margin-bottom:28px;
+}
+.perk-list{display:flex;flex-direction:column;gap:10px;}
+.perk{display:flex;align-items:center;gap:12px;}
+.perk-dot{width:4px;height:4px;background:var(--text);border-radius:50%;flex-shrink:0;}
+.perk p{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:1.5px;color:var(--text2);margin:0;}
+
+.booking-form-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:44px;
+  box-shadow:var(--shadow);
+}
+.form-heading{
+  font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;
+  color:var(--text);text-align:center;margin-bottom:28px;text-transform:uppercase;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{margin-bottom:16px;}
+.form-group label{
+  display:block;font-family:'Cinzel',serif;font-size:9px;
+  letter-spacing:2px;color:var(--text3);margin-bottom:7px;text-transform:uppercase;
+}
+.form-group input,.form-group select{
+  width:100%;background:var(--input-bg);
+  border:1px solid var(--input-border);
+  color:var(--text);padding:12px 14px;
+  font-family:'Lato',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color 0.25s;appearance:none;
+  border-radius:0;
+}
+.form-group input:focus,.form-group select:focus{border-color:var(--text);}
+.form-group input::placeholder{color:var(--text4);}
+.form-group select option{background:var(--surface);color:var(--text);}
+.submit-btn{
+  width:100%;background:var(--accent);color:var(--accent-inv);
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:2.5px;
+  padding:16px;border:none;cursor:pointer;text-transform:uppercase;
+  transition:opacity 0.2s,transform 0.2s;margin-top:6px;
+}
+.submit-btn:hover{opacity:0.85;transform:translateY(-2px);}
+.form-note{text-align:center;font-size:11px;color:var(--text3);margin-top:12px;letter-spacing:0.5px;}
+
+/* ═══════════════════════════════════════
+   PAGE: CONTACT
+═══════════════════════════════════════ */
+.contact-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:3px;margin:48px 0;
+}
+.contact-card{
+  background:var(--surface);padding:44px 28px;text-align:center;
+  border:1px solid var(--border);
+  transition:background 0.2s,transform 0.25s,box-shadow 0.25s;
+}
+.contact-card:hover{background:var(--bg2);transform:translateY(-4px);box-shadow:var(--shadow);}
+.contact-icon{font-size:30px;margin-bottom:14px;display:block;}
+.contact-card h4{font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:2px;color:var(--text);margin-bottom:10px;text-transform:uppercase;}
+.contact-card p{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text2);line-height:1.7;}
+.contact-card a{color:var(--text2);text-decoration:none;transition:color 0.2s;}
+.contact-card a:hover{color:var(--text);}
+
+.contact-map-placeholder{
+  height:300px;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);margin-top:4px;
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER (shared)
+═══════════════════════════════════════ */
+.site-footer{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  text-align:center;padding:48px 24px;
+}
+.footer-logo{font-family:'Cinzel',serif;font-size:20px;letter-spacing:5px;color:var(--text);margin-bottom:6px;}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text3);margin-bottom:28px;}
+.footer-nav{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;}
+.footer-nav button{
+  font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:2px;
+  color:var(--text3);background:none;border:none;cursor:pointer;text-transform:uppercase;
+  transition:color 0.2s;
+}
+.footer-nav button:hover{color:var(--text);}
+.footer-line{width:36px;height:1px;background:var(--border);margin:0 auto 20px;}
+.footer-copy{font-size:11px;color:var(--text4);letter-spacing:0.8px;}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:900px){
+  .nav-links,.nav-book-btn{display:none;}
+  .hamburger{display:flex;}
+  #navbar{padding:0 20px;}
+  .about-grid{grid-template-columns:1fr;gap:36px;}
+  .rooms-grid{grid-template-columns:1fr 1fr;}
+  .dining-grid{grid-template-columns:1fr;}
+  .amenities-grid{grid-template-columns:1fr 1fr;}
+  .gallery-masonry{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .gal-item{height:200px;}
+  .gal-item:nth-child(1),.gal-item:nth-child(4){grid-column:span 2;}
+  .booking-wrap{grid-template-columns:1fr;gap:32px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .menu-grid{grid-template-columns:1fr;}
+  .features-strip{grid-template-columns:1fr;}
+  .quick-cards{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .booking-form-wrap{padding:28px 20px;}
+}
+@media(max-width:580px){
+  .rooms-grid{grid-template-columns:1fr;}
+  .amenities-grid{grid-template-columns:1fr 1fr;}
+  .gallery-masonry{grid-template-columns:1fr;}
+  .gal-item:nth-child(1),.gal-item:nth-child(4){grid-column:span 1;}
+  .stats{flex-direction:column;}
+  .stat{border-right:none;border-bottom:1px solid var(--border);}
+  .dining-card-img{height:200px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ OVERLAY ══ -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- ══ MOBILE DRAWER ══ -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <nav class="drawer-menu">
+    <button onclick="showPage('home')"      data-page="home">🏠 Home</button>
+    <button onclick="showPage('about')"     data-page="about">About</button>
+    <button onclick="showPage('rooms')"     data-page="rooms">Rooms</button>
+    <button onclick="showPage('dining')"    data-page="dining">Dining</button>
+    <button onclick="showPage('amenities')" data-page="amenities">Amenities</button>
+    <button onclick="showPage('gallery')"   data-page="gallery">Gallery</button>
+    <button onclick="showPage('contact')"   data-page="contact">Contact</button>
+  </nav>
+  <!-- theme toggle in drawer -->
+  <button class="drawer-theme" onclick="toggleTheme()">
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span id="drawerThemeLabel">Dark Mode</span>
+  </button>
+  <div class="drawer-footer">
+    <button class="drawer-book" onclick="showPage('booking')">Reserve a Room</button>
+    <div class="drawer-contacts">
+      <p>Contact Us</p>
+      <a href="tel:1234567890">📞 +91 1234 567 890</a>
+      <a href="https://instagram.com/web.devlp.n" target="_blank">📸 @web.devlp.n</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="navbar">
+  <a class="nav-logo" onclick="showPage('home')" style="cursor:pointer;">
+    THE GRAND AURELION
+    <small>Est. 1882 · Luxury Collection</small>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')"      data-page="home"      class="active">Home</a></li>
+    <li><a onclick="showPage('about')"     data-page="about">About</a></li>
+    <li><a onclick="showPage('rooms')"     data-page="rooms">Rooms</a></li>
+    <li><a onclick="showPage('dining')"    data-page="dining">Dining</a></li>
+    <li><a onclick="showPage('amenities')" data-page="amenities">Amenities</a></li>
+    <li><a onclick="showPage('gallery')"   data-page="gallery">Gallery</a></li>
+    <li><a onclick="showPage('contact')"   data-page="contact">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <div class="toggle-track"><div class="toggle-knob"></div></div>
+      <span class="toggle-label" id="themeLabel">Dark</span>
+    </button>
+    <button class="nav-book-btn" onclick="showPage('booking')">Book Now</button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Est. 1882 · Five Star Excellence</div>
+      <h1 class="hero-h1">The Grand<br><em>Aurelion</em></h1>
+      <p class="hero-sub">Where Royalty Meets Timeless Elegance</p>
+      <div class="hero-ctas">
+        <button class="btn btn-dark" onclick="showPage('booking')">Reserve Your Stay</button>
+        <button class="btn btn-outline" onclick="showPage('rooms')">Explore Rooms</button>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll to Explore</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><span class="stat-num">140+</span><span class="stat-lbl">Years of Legacy</span></div>
+    <div class="stat"><span class="stat-num">218</span><span class="stat-lbl">Rooms & Suites</span></div>
+    <div class="stat"><span class="stat-num">5★</span><span class="stat-lbl">Rating</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-lbl">Butler Service</span></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-strip">
+    <div class="feature-box" onclick="showPage('rooms')">
+      <span class="feature-icon">🛏</span>
+      <h3>Luxury Rooms</h3>
+      <p>From classic deluxe chambers to the sky-high penthouse — every room tells a story.</p>
+    </div>
+    <div class="feature-box" onclick="showPage('dining')">
+      <span class="feature-icon">🍽</span>
+      <h3>Fine Dining</h3>
+      <p>Three world-class restaurants, a rooftop bar, and 24/7 in-room silver service.</p>
+    </div>
+    <div class="feature-box" onclick="showPage('amenities')">
+      <span class="feature-icon">💆</span>
+      <h3>Royal Spa & Wellness</h3>
+      <p>Hammam, infinity pool, fitness pavilion and curated therapies for mind and body.</p>
+    </div>
+  </div>
+
+  <!-- QUICK NAV -->
+  <div class="quick-nav">
+    <h2>Explore the <em>Aurelion</em></h2>
+    <p>Every corner of our estate holds a world of its own — discover yours.</p>
+    <div class="quick-cards">
+      <div class="quick-card" onclick="showPage('gallery')">
+        <div class="quick-card-img" style="background-image:url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=700&q=80');"></div>
+        <div class="quick-card-label">
+          <h4>Gallery</h4>
+          <span>A visual journey through our estate</span>
+        </div>
+      </div>
+      <div class="quick-card" onclick="showPage('contact')">
+        <div class="quick-card-img" style="background-image:url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=700&q=80');"></div>
+        <div class="quick-card-label">
+          <h4>Contact Us</h4>
+          <span>We are at your service, always</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <div class="footer-tagline">"Where every moment becomes a memory of magnificence"</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('about')">About</button>
+      <button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('dining')">Dining</button>
+      <button onclick="showPage('amenities')">Amenities</button>
+      <button onclick="showPage('gallery')">Gallery</button>
+      <button onclick="showPage('booking')">Reservations</button>
+      <button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <h1>Our Story</h1>
+    <small>140 years of uncompromising excellence</small>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap">
+          <div class="img-block" style="aspect-ratio:4/5;">
+            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=80" alt="Hotel Interior" loading="lazy"/>
+          </div>
+        </div>
+        <div class="about-text">
+          <h3>140 Years of Grandeur</h3>
+          <p>Nestled amid the gentle whisper of history, The Grand Aurelion has stood as a monument to opulence since 1882. Every corridor breathes artistry; every chamber holds a story of kings and dreamers.</p>
+          <p>Our estate spans 12 acres of sculpted gardens, gilded ballrooms, and intimate sanctuaries designed for those who demand nothing short of perfection.</p>
+          <p>We do not merely offer accommodation — we offer an experience that redefines your sense of extraordinary. From the moment your car approaches our gates, every sense is engaged in a choreography of luxury.</p>
+          <div style="margin-top:28px;">
+            <button class="btn btn-dark" onclick="showPage('rooms')">View Our Rooms</button>
+          </div>
+        </div>
+      </div>
+      <div class="divider"><span>✦</span></div>
+      <div class="stats" style="border:1px solid var(--border);">
+        <div class="stat"><span class="stat-num">140+</span><span class="stat-lbl">Years</span></div>
+        <div class="stat"><span class="stat-num">218</span><span class="stat-lbl">Rooms</span></div>
+        <div class="stat"><span class="stat-num">12</span><span class="stat-lbl">Acres</span></div>
+        <div class="stat"><span class="stat-num">5★</span><span class="stat-lbl">Rating</span></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('dining')">Dining</button><button onclick="showPage('booking')">Reservations</button>
+      <button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ROOMS
+══════════════════════════════════════════ -->
+<div class="page" id="page-rooms">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1400&q=80');">
+    <h1>Our Rooms & Suites</h1>
+    <p>Chambers of distinction, crafted for the discerning guest</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="rooms-grid">
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Classic</div>
+            <div class="room-name">Deluxe Room</div>
+            <p class="room-desc">A refined haven with a king-sized bed, garden views, and every modern luxury seamlessly integrated.</p>
+            <div class="room-features"><span class="room-feat">420 sq ft</span><span class="room-feat">Garden View</span><span class="room-feat">Free WiFi</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹12,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Premier</div>
+            <div class="room-name">Premier Suite</div>
+            <p class="room-desc">A separate living room, panoramic city views, and dedicated butler service at your beck and call.</p>
+            <div class="room-features"><span class="room-feat">780 sq ft</span><span class="room-feat">City View</span><span class="room-feat">Butler</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹28,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1606402179428-a57976d71fa4?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Signature</div>
+            <div class="room-name">Royal Suite</div>
+            <p class="room-desc">A private terrace, marble jacuzzi, and full concierge — the pinnacle of suite living.</p>
+            <div class="room-features"><span class="room-feat">1,200 sq ft</span><span class="room-feat">Jacuzzi</span><span class="room-feat">Terrace</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹55,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Heritage</div>
+            <div class="room-name">Heritage Room</div>
+            <p class="room-desc">Antique furnishings sourced from five continents, set beneath original 1882 ceilings.</p>
+            <div class="room-features"><span class="room-feat">540 sq ft</span><span class="room-feat">Pool View</span><span class="room-feat">Antique</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹18,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Ultimate</div>
+            <div class="room-name">Grand Penthouse</div>
+            <p class="room-desc">Three bedrooms, a private rooftop pool, and an unobstructed sky view that must be seen to be believed.</p>
+            <div class="room-features"><span class="room-feat">3,000 sq ft</span><span class="room-feat">Rooftop Pool</span><span class="room-feat">3BR</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹1,20,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-card">
+          <div class="room-card-img" style="background-image:url('https://images.unsplash.com/photo-1540518614846-7eded433c457?w=700&q=80');"></div>
+          <div class="room-card-body">
+            <div class="room-tag">Villa</div>
+            <div class="room-name">Garden Villa</div>
+            <p class="room-desc">A standalone retreat with a private garden, plunge pool, and a personal chef on call.</p>
+            <div class="room-features"><span class="room-feat">2,000 sq ft</span><span class="room-feat">Private Pool</span><span class="room-feat">Chef</span></div>
+            <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+              <div class="room-price">₹75,000 <span>/ night</span></div>
+              <button class="btn btn-dark" style="padding:9px 18px;font-size:9px;" onclick="showPage('booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('about')">About</button>
+      <button onclick="showPage('dining')">Dining</button><button onclick="showPage('booking')">Book Now</button>
+      <button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: DINING
+══════════════════════════════════════════ -->
+<div class="page" id="page-dining">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80');">
+    <h1>Culinary Arts</h1>
+    <p>A symphony of flavours from around the world</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="dining-grid">
+        <div class="dining-card">
+          <div class="dining-card-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80');"></div>
+          <div class="dining-card-body">
+            <h3>Le Château — Fine Dining</h3>
+            <p>Our flagship French restaurant brings Michelin-star sensibility to every plate. White-glove service, hand-cut crystal, and a wine cellar of 400 rare vintages.</p>
+            <span class="dining-tag">DINNER · 7 PM – 11 PM</span>
+          </div>
+        </div>
+        <div class="dining-card">
+          <div class="dining-card-img" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=700&q=80');"></div>
+          <div class="dining-card-body">
+            <h3>Aurelion Sky Bar</h3>
+            <p>Perched atop the estate, our rooftop cocktail lounge offers panoramic views and bespoke drinks crafted by our master mixologists.</p>
+            <span class="dining-tag">OPEN · 4 PM – 2 AM</span>
+          </div>
+        </div>
+        <div class="dining-card">
+          <div class="dining-card-img" style="background-image:url('https://images.unsplash.com/photo-1600891964092-4316c288032e?w=700&q=80');"></div>
+          <div class="dining-card-body">
+            <h3>Spice Pavilion</h3>
+            <p>An aromatic journey through royal Indian cuisines — from Mughal feasts and Nawabi biryanis to the fire of Chettinad and the spice of the coast.</p>
+            <span class="dining-tag">LUNCH & DINNER · NOON – 11 PM</span>
+          </div>
+        </div>
+        <div class="dining-card">
+          <div class="dining-card-img" style="background-image:url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=700&q=80');"></div>
+          <div class="dining-card-body">
+            <h3>The Vault — Whisky Bar</h3>
+            <p>A gentleman's den of 600 single malts, aged rums, and cognacs. Leather chesterfields, dim candlelight, and a sommelier who knows your glass by heart.</p>
+            <span class="dining-tag">OPEN · 6 PM – 2 AM</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <h3>Today's Highlights</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><h4>🌅 Continental Breakfast</h4><p>Artisan breads, seasonal fruits, live egg stations and freshly pressed juices — served daily from 7 AM.</p><span class="price">COMPLIMENTARY FOR SUITE GUESTS</span></div>
+          <div class="menu-item"><h4>🍷 Wine Pairing Dinner</h4><p>A 7-course curated dinner with sommelier-selected wines from our cellar. Every Tuesday & Friday evening.</p><span class="price">₹8,500 PER PERSON</span></div>
+          <div class="menu-item"><h4>🛎 In-Room Dining</h4><p>A 90-dish menu available around the clock, plated and delivered by our white-glove room service team.</p><span class="price">24/7 · AVAILABLE ALL ROOMS</span></div>
+          <div class="menu-item"><h4>🎂 Chef's Table</h4><p>An intimate 8-seat experience in our kitchen, where Executive Chef Rajan crafts a bespoke 9-course menu for your table.</p><span class="price">₹18,000 PER PERSON · BY RESERVATION</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('booking')">Book Now</button><button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: AMENITIES
+══════════════════════════════════════════ -->
+<div class="page" id="page-amenities">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1400&q=80');">
+    <h1>Amenities & Wellness</h1>
+    <p>Crafted for those who expect the extraordinary</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="amenities-grid">
+        <div class="amenity-card"><span class="amenity-icon">🏊</span><h4>Infinity Pool</h4><p>Heated rooftop infinity pool overlooking the skyline, open year-round with poolside service.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">💆</span><h4>Royal Spa</h4><p>16 treatment rooms, hammam, ayurvedic therapies, heated marble floors and hydrotherapy.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">🏋️</span><h4>Fitness Pavilion</h4><p>State-of-the-art equipment, personal trainers, yoga studio and meditation garden — open 24/7.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">🎭</span><h4>Grand Ballroom</h4><p>Gilded 800-seat ballroom with crystal chandeliers — perfect for weddings, galas and events.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">🌿</span><h4>Heritage Gardens</h4><p>12 acres of manicured gardens with rose walkways, koi ponds, and a heritage tree grove.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">🚗</span><h4>Valet & Transfers</h4><p>Rolls-Royce fleet, Bentley day trips, private airport transfers and a helipad on the estate.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">📚</span><h4>Library Lounge</h4><p>3,000 rare books, first editions and a reading room served by a dedicated cigar and whisky cart.</p></div>
+        <div class="amenity-card"><span class="amenity-icon">🧒</span><h4>Children's Palace</h4><p>Dedicated kids' wing with cinema, indoor adventure zone and supervised activity programmes.</p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('booking')">Book Now</button><button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: GALLERY
+══════════════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&q=80');">
+    <h1>Gallery</h1>
+    <p>A visual journey through the Grand Aurelion</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="gallery-masonry">
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=900&q=80');"></div></div>
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1501117716987-c8c394bb29df?w=500&q=80');"></div></div>
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1559599101-f09722fb4948?w=500&q=80');"></div></div>
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=900&q=80');"></div></div>
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80');"></div></div>
+        <div class="gal-item"><div class="gal-bg" style="background-image:url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=500&q=80');"></div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('booking')">Book Now</button><button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: BOOKING
+══════════════════════════════════════════ -->
+<div class="page" id="page-booking">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1400&q=80');">
+    <h1>Reserve Your Stay</h1>
+    <p>Your palace awaits — every detail considered</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <div class="booking-wrap">
+        <div class="booking-info">
+          <h3>Begin Your Journey at The Grand Aurelion</h3>
+          <p>Reserve your chamber and let us orchestrate an arrival experience befitting royalty. Our concierge team will reach out within 2 hours to personalise every aspect of your stay.</p>
+          <div class="perk-list">
+            <div class="perk"><div class="perk-dot"></div><p>Complimentary Rolls-Royce airport pick-up</p></div>
+            <div class="perk"><div class="perk-dot"></div><p>Champagne & canapes on arrival</p></div>
+            <div class="perk"><div class="perk-dot"></div><p>Daily breakfast for all guests</p></div>
+            <div class="perk"><div class="perk-dot"></div><p>Flexible cancellation policy</p></div>
+            <div class="perk"><div class="perk-dot"></div><p>24/7 personal butler service</p></div>
+            <div class="perk"><div class="perk-dot"></div><p>Late checkout on request</p></div>
+          </div>
+        </div>
+        <div class="booking-form-wrap">
+          <div class="form-heading">✦ Reservation Request ✦</div>
+          <form action="https://formspree.io/f/mkopkvkp" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">Full Name</label>
+                <input type="text" id="fname" name="name" placeholder="Your full name" required/>
+              </div>
+              <div class="form-group">
+                <label for="fmobile">Mobile Number</label>
+                <input type="tel" id="fmobile" name="mobile" placeholder="+91 00000 00000" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="femail">Email Address</label>
+              <input type="email" id="femail" name="email" placeholder="your@email.com" required/>
+            </div>
+            <div class="form-group">
+              <label for="froom">Room Type</label>
+              <select id="froom" name="room_type" required>
+                <option value="" disabled selected>Select your chamber</option>
+                <option>Deluxe Room — ₹12,000/night</option>
+                <option>Heritage Room — ₹18,000/night</option>
+                <option>Premier Suite — ₹28,000/night</option>
+                <option>Royal Suite — ₹55,000/night</option>
+                <option>Garden Villa — ₹75,000/night</option>
+                <option>Grand Penthouse — ₹1,20,000/night</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fcheckin">Check-In Date</label>
+                <input type="date" id="fcheckin" name="check_in" required/>
+              </div>
+              <div class="form-group">
+                <label for="fcheckout">Check-Out Date</label>
+                <input type="date" id="fcheckout" name="check_out" required/>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">✦ Submit Reservation Request ✦</button>
+            <p class="form-note">Our concierge will confirm within 2 hours of your request.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('dining')">Dining</button><button onclick="showPage('contact')">Contact</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: CONTACT
+══════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1400&q=80');">
+    <h1>Contact Us</h1>
+    <p>We are at your service — always</p>
+  </div>
+  <div class="section-inner">
+    <div class="container">
+      <p class="section-label">Reach Us</p>
+      <h2 class="section-title">Every Request, <em>Honoured</em></h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="contact-icon">📞</span>
+          <h4>Phone</h4>
+          <p><a href="tel:1234567890">+91 1234 567 890</a><br/>Available 24 hours, 7 days</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">📸</span>
+          <h4>Instagram</h4>
+          <p><a href="https://instagram.com/web.devlp.n" target="_blank">@web.devlp.n</a><br/>Follow us for offers & stories</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">📍</span>
+          <h4>Address</h4>
+          <p>1 Aurelion Boulevard<br/>Royal Quarter, City — 110001</p>
+        </div>
+      </div>
+      <div class="contact-map-placeholder">📍 Interactive Map Coming Soon</div>
+      <div style="text-align:center;margin-top:48px;">
+        <button class="btn btn-dark" onclick="showPage('booking')">Make a Reservation</button>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-logo">THE GRAND AURELION</div>
+    <nav class="footer-nav">
+      <button onclick="showPage('home')">Home</button><button onclick="showPage('rooms')">Rooms</button>
+      <button onclick="showPage('dining')">Dining</button><button onclick="showPage('booking')">Book Now</button>
+    </nav>
+    <div class="footer-line"></div>
+    <p class="footer-copy">© 2026 The Grand Aurelion · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── PAGE SWITCHING ──
+const pages = ['home','about','rooms','dining','amenities','gallery','booking','contact'];
+
+function showPage(id) {
+  // hide all
+  pages.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.remove('active');
+  });
+
+  // show target
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // update nav active states
+  document.querySelectorAll('[data-page]').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === id);
+  });
+
+  // close drawer if open
+  closeDrawer();
+}
+
+// ── THEME ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark' : 'Light';
+  document.getElementById('drawerThemeLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+}
+
+// ── DRAWER ──
+const hamburger = document.getElementById('hamburger');
+const drawer    = document.getElementById('mobileDrawer');
+const overlay   = document.getElementById('drawerOverlay');
+
+function openDrawer() {
+  drawer.classList.add('open');
+  hamburger.classList.add('open');
+  overlay.classList.add('visible');
+  setTimeout(() => overlay.classList.add('show'), 10);
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  drawer.classList.remove('open');
+  hamburger.classList.remove('open');
+  overlay.classList.remove('show');
+  setTimeout(() => overlay.classList.remove('visible'), 300);
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+overlay.addEventListener('click', closeDrawer);
+
+// ── BOOKING DATES ──
+const today = new Date().toISOString().split('T')[0];
+const ci = document.getElementById('fcheckin');
+const co = document.getElementById('fcheckout');
+if(ci){ ci.min = today; }
+if(co){ co.min = today; }
+if(ci) ci.addEventListener('change', function(){ if(co) co.min = this.value; });
+</script>
+</body>
+</html>
